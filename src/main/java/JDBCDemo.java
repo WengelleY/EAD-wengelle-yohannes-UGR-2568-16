@@ -1,31 +1,22 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class JDBCDemo {
     public static void main(String[] args) {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DBConnection.getConnection();
 
-            String url = "jdbc:mysql://localhost:3306/StudentsDB";
-            String username = "root";
-            String password = "0911627815";
-
-            Connection connection = DriverManager.getConnection(
-                    url,
-                    username,
-                    password
-            );
-
+            System.out.println("Database connected successfully!");
 
             Statement statement = connection.createStatement();
 
-
-
+            System.out.println("Statement created successfully!");
 
             statement.close();
             connection.close();
+
+            System.out.println("Connection closed successfully!");
 
         } catch (Exception e) {
             e.printStackTrace();
