@@ -3,6 +3,7 @@ package com.craft;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import java.util.List;
 
 import java.util.Properties;
 
@@ -30,7 +31,6 @@ public class StudentDAO {
                 properties
         );
     }
-
 
 
     public int createStudent(String name, String tech) {
@@ -72,6 +72,49 @@ public class StudentDAO {
         }
     }
 
+
+    public List<Student> getAllStudents() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.createQuery(
+                    "SELECT s FROM Student s",
+                    Student.class
+            ).getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Student> getStudentsByTech(String tech) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.createQuery(
+                            "SELECT s FROM Student s WHERE s.tech = :tech",
+                            Student.class
+                    )
+                    .setParameter("tech", tech)
+                    .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    public long countStudents() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.createQuery(
+                    "SELECT COUNT(s) FROM Student s",
+                    Long.class
+            ).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 
 
     public void updateStudent(int id, String newName, String newTech) {
@@ -141,5 +184,68 @@ public class StudentDAO {
         emf.close();
     }
 
+    public Student findStudentByIdJPQL(int id) {
+        EntityManager em = emf.createEntityManager();
 
+        try {
+            List<Student> students = em.createQuery(
+                            "SELECT s FROM Student s WHERE s.id = :id",
+                            Student.class
+                    )
+                    .setParameter("id", id)
+                    .getResultList();
+
+            return students.isEmpty() ? null : students.get(0);
+
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public List<Student> getStudentsByNameAndTech(
+            String name, String tech) {
+
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.createQuery(
+                            "SELECT s FROM Student s " +
+                                    "WHERE s.name = :name AND s.tech = :tech",
+                            Student.class
+                    )
+                    .setParameter("name", name)
+                    .setParameter("tech", tech)
+                    .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<String> getAllStudentNames() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.createQuery(
+                    "SELECT s.name FROM Student s",
+                    String.class
+            ).getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean isStudentManaged(int id) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            Student student = em.find(Student.class, id);
+            return student != null && em.contains(student);
+        } finally {
+            em.close();
+        }
+    }
 }
+
