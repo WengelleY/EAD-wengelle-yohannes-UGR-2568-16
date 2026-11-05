@@ -1,2 +1,2 @@
-# Lab 3: Spring Framework / Spring Core lab
+# Lab 4: annotation-based Spring configuration
 
