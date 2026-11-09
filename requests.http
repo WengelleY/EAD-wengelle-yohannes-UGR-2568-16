@@ -1,0 +1,37 @@
+
+### Get all actors
+GET http://localhost:8080/actor
+
+### Get actor by ID
+GET http://localhost:8080/actor/1
+
+
+
+### Create a new actor
+POST http://localhost:8080/actor
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "Sara",
+  "gender": "Female",
+  "age": 24
+}
+
+
+
+### Update Sara
+PUT http://localhost:8080/actor/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "Sara",
+  "gender": "Female",
+  "age": 25
+}
+
+
+
+### Delete Sara
+DELETE http://localhost:8080/actor/4
