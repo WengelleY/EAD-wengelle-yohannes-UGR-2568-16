@@ -2,36 +2,41 @@
 ### Get all actors
 GET http://localhost:8080/actor
 
-### Get actor by ID
-GET http://localhost:8080/actor/1
+###
 
-
-
-### Create a new actor
+### Create Abebe
 POST http://localhost:8080/actor
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "Sara",
-  "gender": "Female",
-  "age": 24
+  "name": "Abebe",
+  "movieName": "The Unknown"
 }
 
+###
 
-
-### Update Sara
-PUT http://localhost:8080/actor/4
+### Create Martha
+POST http://localhost:8080/actor
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "Sara",
-  "gender": "Female",
-  "age": 25
+  "name": "Martha",
+  "movieName": "Freedom"
 }
 
 
+### Get actor with ID 1
+GET http://localhost:8080/actor/1
 
-### Delete Sara
-DELETE http://localhost:8080/actor/4
+### Update actor with ID 1
+PUT http://localhost:8080/actor/1
+Content-Type: application/json
+
+{
+  "name": "Abebe Kebede",
+  "movieName": "New Movie"
+}
+
+
+### Delete actor with ID 2
+DELETE http://localhost:8080/actor/2

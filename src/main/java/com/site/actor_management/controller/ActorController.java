@@ -1,73 +1,47 @@
+
 package com.site.actor_management.controller;
 
 import com.site.actor_management.model.Actor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import java.util.ArrayList;
+import com.site.actor_management.service.ActorService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/actor")
 public class ActorController {
 
-    List<Actor> actors = new ArrayList<>();
+    private final ActorService actorService;
 
-    public ActorController() {
-        actors.add(new Actor(1, "Abebe", "Male", 25));
-        actors.add(new Actor(2, "Martha", "Female", 22));
-        actors.add(new Actor(3, "Dawit", "Male", 28));
+    public ActorController(ActorService actorService) {
+        this.actorService = actorService;
     }
 
-
-
-    @GetMapping("/actor")
-    public List<Actor> getActorDetails() {
-        return actors;
+    @GetMapping
+    public List<Actor> getAllActors() {
+        return actorService.getAllActors();
     }
 
-    @GetMapping("/actor/{id}")
-    public Actor getActorById(@PathVariable int id) {
-        for (Actor actor : actors) {
-            if (actor.getId() == id) {
-                return actor;
-            }
-        }
-        return null;
+    @GetMapping("/{id}")
+    public Optional<Actor> getActorById(@PathVariable int id) {
+        return actorService.getActorById(id);
     }
 
-    @PostMapping("/actor")
+    @PostMapping
     public Actor addActor(@RequestBody Actor actor) {
-        actors.add(actor);
-        return actor;
-    }
-    @PutMapping("/actor/{id}")
-    public Actor updateActor(@PathVariable int id, @RequestBody Actor updatedActor) {
-
-        for (Actor actor : actors) {
-            if (actor.getId() == id) {
-                actor.setName(updatedActor.getName());
-                actor.setGender(updatedActor.getGender());
-                actor.setAge(updatedActor.getAge());
-
-                return actor;
-            }
-        }
-
-        return null;
+        return actorService.addActor(actor);
     }
 
-    @DeleteMapping("/actor/{id}")
+    @PutMapping("/{id}")
+    public Actor updateActor(@PathVariable int id,
+                             @RequestBody Actor actor) {
+        actor.setId(id);
+        return actorService.updateActor(actor);
+    }
+
+    @DeleteMapping("/{id}")
     public void deleteActor(@PathVariable int id) {
-        for (Actor actor : actors) {
-            if (actor.getId() == id) {
-                actors.remove(actor);
-                return;
-            }
-        }
+        actorService.deleteActor(id);
     }
-
 }
