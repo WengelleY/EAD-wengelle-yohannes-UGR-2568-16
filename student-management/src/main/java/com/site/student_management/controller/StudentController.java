@@ -5,6 +5,7 @@ import com.site.student_management.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/students")
@@ -17,7 +18,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(@Valid @RequestBody Student student) {
         return studentService.saveStudent(student);
     }
 
@@ -32,12 +33,23 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    public Student updateStudent(
+            @PathVariable Long id,
+            @Valid @RequestBody Student student) {
         return studentService.updateStudent(id, student);
     }
 
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+    }
+    @GetMapping("/email/{email}")
+    public Student getStudentByEmail(@PathVariable String email) {
+        return studentService.getStudentByEmail(email);
+    }
+
+    @GetMapping("/department/{department}")
+    public List<Student> getStudentsByDepartment(@PathVariable String department) {
+        return studentService.getStudentsByDepartment(department);
     }
 }

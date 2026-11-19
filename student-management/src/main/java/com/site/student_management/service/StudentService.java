@@ -35,4 +35,12 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email).orElse(null);
+    }
+
+    public List<Student> getStudentsByDepartment(String department) {
+        return studentRepository.findByDepartment(department);
+    }
 }
